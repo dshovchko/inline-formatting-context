@@ -1,0 +1,115 @@
+:root {
+  --bg: #444444;
+  --color: #ffffff;
+  --color-one: #f03d36;
+  --color-two: #51c3fa;
+  --color-a: #dddddd;
+  --color-p: #eaeaea;
+  --bg-color-tab-index: #444444;
+  --bg-color-tab-index-active: darkred;
+  --bg-color-tab-index-hover: #555555;
+  --color-tab-text: #444444;
+  --bg-color-tab-text: var(--color-two);
+}
+
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header, footer, section {
+  display: block;
+}
+
+html, body {
+  min-height: 100%;
+  margin: 0;
+}
+
+html {
+  position: relative;
+  width: 100%;
+  font: sans-serif;
+  color: var(--color);
+  background: var(--bg);
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  text-size-adjust: none
+}
+
+body {
+  padding-bottom: 5em;
+  background: linear-gradient(transparent,rgba(0, 0, 0, .15) 1000px) no-repeat var(--color-one);
+  min-height: 100dvh;
+}
+
+h1, h2 {
+  color: var(--color);
+  letter-spacing: -.02em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+}
+
+h1 {
+  font-size: 64px;
+  font-weight: 900;
+  text-align: center;
+}
+
+a {
+  color: var(--color-a);
+}
+
+header {
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.wrap {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.main {
+  overflow: hidden;
+  padding: .5em 0 0;
+}
+
+.article .wrap {
+  max-width: 65em;
+}
+
+.article .wrap {
+  margin: 0;
+  margin: auto;
+  padding: 3em;
+  background: var(--bg);
+  border-radius: 3px 3px 0 0
+}
+
+.wrap+.wrap {
+  border-radius: 0;
+}
+
+::-moz-selection {
+  background: #000;
+  color: #FFF;
+}
+
+::selection {
+  background: #000;
+  color: #FFF;
+}
+
+@import "./typography.less";
+@import "./nav-tabs.less";
+@import "./article-text.less";
+
+@import '@exadel/esl/modules/esl-image/core.less';
+@import '@exadel/esl/modules/esl-tab/core.less';
+@import '@exadel/esl/modules/esl-panel-group/core.less';
+@import '@exadel/esl/modules/esl-panel/core.less';
+
+@import "../../node_modules/prismjs/themes/prism.css";
+@import "../../node_modules/prismjs/themes/prism-twilight.css";
+@import "./highlight.less";

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<meta name="viewport" content="initial-scale=1">
+	<title>Font metrics, line-height and vertical-align</title>
+  <link rel="stylesheet" type="text/css" href="assets/app.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@100..900&family=Gruppo&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+  <script type="text/javascript" async="" src="./assets/app.js"></script>
+</head>
+
+<body>
+  <nav class="nav-tabs">
+    <esl-tabs class="esl-d-tab-control tabs-alignment">
+      <esl-a11y-group targets="::find(esl-tab)" activate-selected=""></esl-a11y-group>
+
+      <ul class="tab-list" role="tablist">
+        <li class="tab-item">
+          <esl-tab target=".tab-0">
+            <div class="tab-index">0</div>
+            <div class="tab-text">сначала</div>
+          </esl-tab>
+        </li>
+        <li class="tab-item">
+          <esl-tab target=".tab-1">
+            <div class="tab-index">1</div>
+            <div class="tab-text">пролог</div>
+          </esl-tab>
+        </li>
+        <li class="tab-item">
+          <esl-tab target=".tab-2">
+            <div class="tab-index">2</div>
+            <div class="tab-text">font-size</div>
+          </esl-tab>
+        </li>
+        <li class="tab-item">
+          <esl-tab target=".tab-3">
+            <div class="tab-index">3</div>
+            <div class="tab-text">line-height</div>
+          </esl-tab>
+        </li>
+        <li class="tab-item">
+          <esl-tab target=".tab-4">
+            <div class="tab-index">4</div>
+            <div class="tab-text">vertical-align</div>
+          </esl-tab>
+        </li>
+        <li class="tab-item">
+          <esl-tab target=".tab-5">
+            <div class="tab-index">5</div>
+            <div class="tab-text">CSS</div>
+          </esl-tab>
+        </li>
+        <li class="tab-item">
+          <esl-tab target=".tab-6">
+            <div class="tab-index">6</div>
+            <div class="tab-text">итого</div>
+          </esl-tab>
+        </li>
+        <li class="tab-item">
+          <esl-tab target=".tab-7">
+            <div class="tab-index">7</div>
+            <div class="tab-text">полезности</div>
+          </esl-tab>
+        </li>
+      </ul>
+    </esl-tabs>
+  </nav>
+
+  <section class="main article" role="main">
+    <div class="wrap">
+
+      <esl-panel-group class="esl-d-tab-group" mode="tabs" mode-cls-target="::parent" no-animate scroll-to-top-on-show>
+        <esl-panel open class="esl-d-tab-panel tab-0" tabindex="0">
+            <!-- 0 -->
+            <div class="article-text">
+              <h1>Inline formatting context</h1>
+              <figure><img src="./assets/img/01.webp">
+              </figure>
+            </div>
+            <esl-trigger class="read-next" target=".tab-1">и что там внутри?</esl-trigger>
+        </esl-panel>
+
+        <esl-panel class="esl-d-tab-panel tab-1" tabindex="0" scroll-on-open>
+            <!-- 1 -->
+            <div class="article-text">
+              <figure><img class="chapter-img" src="./assets/img/chapter1.avif"></figure>
+              <p><code class="language-css">line-height</code> и <code class="language-css">vertical-align</code> — простые свойства CSS.
+                Настолько простые, что большинство из нас убеждены, что полностью понимают, как они работают и как их использовать.
+                Но это не так. В действительности они сложные, возможно, самые трудные, поскольку <strong>они играют важную роль в создании
+                одной из наименее известных функций CSS: inline formatting context</strong>.</p>
+              <p>Например, <code class="language-css">line-height</code> может быть установлена как размер или безразмерное значение,
+                но значение по умолчанию — <code class="language-css">normal</code>. Хорошо, но что такое normal? Мы часто читаем,
+                что это (или должно быть) 1 или, может быть, 1.2, даже <a href="https://www.w3.org/TR/CSS2/visudet.html#propdef-line-height" target="_blank">
+                спецификация CSS неясна по этому поводу</a>. Мы знаем, что безразмерная <code class="language-css">line-height</code> является
+                относительной к <code class="language-css">font-size</code>, но проблема в том, что <code class="language-css">font-size: 100px</code>
+                ведет себя по-разному в разных семействах шрифтов, так что <code class="language-css">line-height</code> всегда одинакова или различна?
+                Действительно ли она находится между 1 и 1.2? И <code class="language-css">vertical-align</code>, каково ее влияние относительно <code class="language-css">line-height</code>?</p>
+              <p>Глубокое погружение в не такой уж простой механизм CSS…</p>
+              <figure><img class="chapter-img" src="./assets/img/chapter11.avif"></figure>
+            </div>
+            <esl-trigger class="read-next" target=".tab-2">погнали?</esl-trigger>
+          </esl-panel>
+
+          <esl-panel class="esl-d-tab-panel tab-2" tabindex="0">
+            <!-- 2 -->
+            <div class="article-text language-css">
+              <figure><img class="chapter-img" src="./assets/img/chapter2.avif"></figure>
+              <h2>Давайте сначала поговорим о <code>font-size</code></h2>
+              <p>Посмотрите на этот простой HTML-код, тег <code>&lt;p&gt;</code>, содержащий 3 <code>&lt;span&gt;</code>, каждый из которых имеет разное семейство шрифтов:</p>
+              <pre class="language-markup"><code>&lt;p>
+  &lt;span class="helvetica">Ba&lt;/span>
+  &lt;span class="gruppo">Ba&lt;/span>
+  &lt;span class="catamaran">Ba&lt;/span>
+&lt;/p></code></pre>
+            <pre><code>p  { font-size: 100px; }
+.helvetica { font-family: Helvetica; }
+.gruppo { font-family: Gruppo; }
+.catamaran { font-family: Catamaran; }</code></pre>
+              <style>
+                p.example-01 {
+                  text-align: center;
+                  font-size: 100px;
+                  padding: 0;
+                  background-color: var(--color-one);
+                }
+                p.example-01 span {
+                  background-color: darkred;
+                }
+              </style>
+              <p class="example-01 f-size-100 span-h-light"><span class="helvetica">Ba</span> <span class="gruppo">Ba</span> <span class="catamaran">Ba</span></p>
+              <p>Использование одного и того же <code>font-size</code> с разными семействами шрифтов приводит к созданию элементов с разной высотой:</p>
+              <figure><img class="blend" src="./assets/img/21.webp">
+                <figcaption class="caption">Различные семейства шрифтов, одинаковые размеры шрифта, дают разную высоту</figcaption>
+              </figure>
+              <p>Даже если мы знаем об этом поведении, почему <code>font-size: 100px</code> не создает элементы высотой 100px? Измеренные значения для
+                примера выше: Helvetica: 115px, Gruppo: 97px и Catamaran: 164px</p>
+              <figure><img class="blend" src="./assets/img/22.webp">
+                <figcaption class="caption">Элементы с размером шрифта 100px имеют высоту от 97px до 164px</figcaption>
+              </figure>
+              <p>Хотя на первый взгляд это кажется немного странным, это вполне ожидаемо. <strong>Причина кроется в самом шрифте</strong>. Вот как это работает:</p>
+              <ul>
+                <li>шрифт определяет свой <a href="http://designwithfontforge.com/en-US/The_EM_Square.html" target="_blank">em-square</a> (или UPM, units per em), своего рода
+                  контейнер, в котором будет нарисован каждый символ. Этот квадрат использует относительные единицы и обычно устанавливается на 1000 единиц.
+                  Но он также может быть 1024, 2048 или любым другим;</li>
+                <li>на основе этой относительной единицы устанавливаются метрики шрифтов (надстрочные, подстрочные, высота заглавных букв, x-высота и т.д.).
+                  Обратите внимание, что некоторые значения могут выходить за пределы em-square;</li>
+                <li>в браузере относительные единицы масштабируются в соответствии с желаемым размером шрифта.</li>
+                </ul>
+                <p>Давайте возьмем шрифт Catamaran и откроем его в <a href="https://fontforge.github.io/en-US/" target="_blank">FontForge</a>, чтобы получить метрики:</p>
+                <ul>
+                <li>em-square равно 1000</li>
+                <li>ascender равен 1100, а descender равен 540. После проведения некоторых тестов выяснилось, что браузеры используют значения
+                  <em>HHead Ascent</em>/<em>Descent</em> на Mac OS и значения <em>Win Ascent</em>/<em>Descent</em> на Windows (эти значения могут отличаться!).
+                  Также отмечаем, что <em>Capital Height</em> равен 680, а <em>X height</em> равен 485.</li>
+              </ul>
+              <figure><img src="./assets/img/23.webp">
+                <figcaption class="caption">Значения метрик шрифта с использованием FontForge</figcaption>
+              </figure>
+              <p>Это означает, что шрифт Catamaran использует 1100 + 540 единиц в em-square размером 1000 единиц, что дает высоту 164 пикселя при установке
+                <code>font-size: 100px</code>. <strong>Эта вычисленная высота определяет <em>content-area</em> элемента</strong>, и мы будем ссылаться на эту
+                терминологию далее. Вы можете думать об <em>content-area</em> как о области, к которой применяется свойство <code>background</code>.</p>
+              <p>We can also predict that capital letters are 68px high (680 units) and lower case letters (x-height) are 49px high (485 units). As a result, <code>1ex</code> = 49px and <code>1em</code> = 100px, not 164px (thankfully, <code>em</code> is based on <code>font-size</code>, not computed height)</p>
+              <p>Мы также можем предсказать, что заглавные буквы будут иметь высоту 68px (680 единиц), а строчные буквы (x-height) — 49px (485 единиц).
+                В результате <code>1ex</code> = 49px и <code>1em</code> = 100px, а не 164px (к счастью, <code>em</code> основан на <code>font-size</code>, а не на вычисленной высоте)</p>
+              <figure><img class="blend" src="./assets/img/24.webp">
+                  <figcaption class="caption">Шрифт Catamaran: UPM — Units Per Em — и эквивалент в пикселях с использованием размера шрифта: 100px</figcaption>
+              </figure>
+              <p>Прежде чем углубляться, короткая заметка о том, что это подразумевает. Когда элемент <code>&lt;p&gt;</code> отображается на экране, он может состоять из множества строк в зависимости от его ширины. Каждая строка состоит из одного или множества встроенных элементов (теги HTML или анонимные встроенные элементы для текстового содержимого) которые называются <em>line-box</em>. <strong>Высота <em>line-box</em> основана на высоте его дочерних элементов</strong>. Поэтому браузер вычисляет высоту для каждого встроенного элемента и, таким образом, высоту <em>line-box</em> (от самой высокой точки дочернего элемента до самой низкой точки дочернего элемента). В результате <em>line-box</em> всегда достаточно высок, чтобы вместить всех своих дочерних элементов (по умолчанию).</p>
+              <blockquote>
+                <p>Каждый элемент HTML на самом деле представляет собой стек <em>line-boxes</em>. Если вы знаете высоту каждого <em>line-box</em>, вы знаете высоту элемента.</p>
+              </blockquote>
+              <p>Если мы обновим предыдущий HTML-код следующим образом:</p>
+              <pre class="language-markup"><code>&lt;p>
+  Good design will be better.
+  &lt;span class="helvetica">Ba&lt;/span>
+  &lt;span class="gruppo">Ba&lt;/span>
+  &lt;span class="catamaran">Ba&lt;/span>
+  We get to make a consequence
+&lt;/p></code></pre>
+              <p>То он сгенерирует 3 <em>line-boxes</em>:</p>
+              <style>
+                p.example-02 {
+                  font-family: none;
+                  font-size: 100px;
+                  padding: 0;
+                  background-color: var(--color-one);
+                  border: 1px solid black;
+                }
+                .example-02 span {
+                  background-color: darkred;
+                }
+              </style>
+              <p class="example-02">Good design will be better.<span class="helvetica">Ba</span><span class="gruppo">Ba</span><span class="catamaran">Ba</span>We get to make a consequence</p>
+              <ul>
+                <li>первый и третий содержат по одному анонимному встроенному элементу (текстовое содержимое)</li>
+                <li>второй содержит два анонимных встроенных элемента и 3 <code>&lt;span&gt;</code></li>
+              </ul>
+              <figure><img class="blend" src="./assets/img/25.webp">
+                <figcaption class="caption"><code>&lt;p&gt;</code> (черная рамка) состоит из line-boxes (белые рамки), которые содержат инлайновые элементы (сплошные рамки) и анонимные инлайновые элементы (пунктирные рамки).</figcaption>
+              </figure>
+              <p>Мы четко видим, что второй <em>line-box</em> выше остальных из-за вычисленной <em>content-area</em> его дочерних элементов, а точнее, того, который использует шрифт Catamaran.</p>
+              <p><strong>Сложность в создании <em>line-box</em> заключается в том, что мы не можем его ни увидеть, ни контролировать с помощью CSS</strong>. Даже применение фона к <code>::first-line</code> не дает нам визуальной подсказки о высоте первого <em>line-box</em>.</p>
+            </div>
+            <esl-trigger class="read-next" target=".tab-3">интересно, продолжай!</esl-trigger>
+          </esl-panel>
+
+          <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
+            <!-- 3 -->
+            <div class="article-text language-css">
+              <figure><img class="chapter-img" src="./assets/img/chapter3.avif"></figure>
+              <h2><code>line-height</code>: к проблемам и далее</h2>
+              <p>До сих пор у нас были два новых понятия: <em>content-area</em> и <em>line-box</em>. Если вы внимательно прочитали, было укзано, что высота <em>line-box</em> вычисляется в соответствии с высотой его потомков, и не сказано, что это высота <em>content-area</em> его потомков. И это очень важно.</p>
+              <p>Хотя это может показаться странным, <strong>инлайновый элемент имеет две разные высоты: высоту <em>content-area</em> и высоту <em>virtual-area</em></strong> (мы введем новый термин <em>virtual-area</em> поскольку высота для нас невидима, но вы не найдете его в спецификации).</p>
+              <ul>
+                <li>высота <em>content-area</em> определяется метриками шрифта (как было показано ранее)</li>
+                <li><strong>высота <em>virtual-area</em> равна <code>line-height</code></strong>, и это высота, <strong>используемая для вычисления высоты <em>line-box</em></strong></li>
+              </ul>
+              <figure><img class="blend" src="./assets/img/31.webp">
+                <figcaption class="caption">Инлайновые элементы имеют две разные высоты</figcaption>
+              </figure>
+              <p>Тем не менее, это разрушает популярное мнение, что <code>line-height</code> — это расстояние между базовыми линиями. В CSS это не так <esl-note>в других редакторах это может быть расстояние между базовыми линиями. В Word или Photoshop это так. Главное отличие в том, что первая строка также затрагивается в CSS</els-note>.</p>
+              <figure><img class="blend" src="./assets/img/32.webp">
+                <figcaption class="caption">В CSS высота строки — это не расстояние между baseline.</figcaption>
+              </figure>
+              <p>Вычисленная разница высоты между <em>virtual-area</em> и <em>content-area</em> называется leading. Половина этого leading добавляется сверху <em>content-area</em>, другая половина добавляется снизу. <strong>Таким образом, <em>content-area</em> всегда находится посередине <em>virtual-area</em></strong>.</p>
+              <p>На основе вычисленного значения <code>line-height</code> (<em>virtual-area</em>) может быть равной, большей или меньшей, чем <em>content-area</em>. В случае меньшей <em>virtual-area</em>, leading отрицательный, а <em>line-box</em> визуально меньше своих дочерних элементов.</p>
+              <p>Также существуют такие разновидности инлайновых элементов:</p>
+              <ul>
+                <li>replaced inline elements (<code>&lt;img&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;svg&gt;</code>, и т.п.)</li>
+                <li><code>inline-block</code> и все <code>inline-*</code> элементы</li>
+                <li>инлайновые элементы, которые участвуют в определенном контексте форматирования (например, в элементе flexbox все flex-элементы <em>блокированы</em>)</li>
+              </ul>
+              <p>Для этих конкретных встроенных элементов высота вычисляется на основе их свойств <code>height</code>, <code>margin</code> и <code>border</code>. Если <code>height</code> равен <code>auto</code>, то используется <code>line-height</code>, а <em>content-area</em> строго равна <code>line-height</code>.</p>
+
+              <figure><img class="blend" src="./assets/img/33.webp">
+                <figcaption class="caption">Inline replaced элементы, inline-block/inline-* и блокированные элементы inline имеют область содержимого, равную их высоте или высоте строки.</figcaption>
+              </figure>
+              <p>В любом случае, проблема, которую мы еще не разрешили, заключается в том, каково значение <code>normal</code> для <code>line-height</code>? И ответ, что касается вычисления высоты <em>content-area</em>, следует искать внутри метрик шрифта.</p>
+              <p>Итак, вернемся к FontForge. У Catamaran em-square равен 1000, но мы видим несколько значений ascender/descender:</p>
+              <ul>
+                <li>основные <em>Ascent/Descent</em>: ascender равен 770 и descender равен 230. Используются для отрисовки символов. (вкладка <em>"General"</em>)</li>
+                <li>метричные <em>Ascent/Descent</em>: ascender равен 1100 и descender равен 540. Используются для высоты <em>content-area</em>. (таблица <em>"Metrics"</em> на вкладке <em>"OS/2"</em>)</li>
+                <li>метричная <em>Line Gap</em>. Используется для <code>line-height: normal</code>, путем добавления этого значения к метрикам <em>Ascent/Descent</em>. (таблица <em>"Metrics"</em> на вкладке <em>"OS/2"</em>)</li>
+              </ul>
+              <p>В нашем случае шрифт Catamaran определяет межстрочный интервал в 0 единиц, поэтому <strong><code>line-height: normal</code> будет равен <em>content-area</em>, что составляет 1640 единиц или 1,64</strong>.</p>
+              <p>Для сравнения, шрифт MetricHPEXS описывает em-square в 1000 единиц, ascender в 794, descender в 206 и line gap в 200. Это означает, что <code>font-size: 100px</code> дает <em>content-area</em> в 100px (1000 единиц) и <code>line-height: normal</code> в 120px (1200 единиц или 1,2). Все эти метрики являются специфическими для шрифта и устанавливаются дизайнером шрифта.</p>
+              <p>Становится очевидным, что установка <code>line-height: 1</code> — плохая практика</strong>. Напоминаем, что безразмерные значения являются относительными для <code>font-size</code>, а не для <em>content-area</em>, и работа с <em>virtual-area</em>, меньшей, чем <em>content-area</em>, является источником многих наших проблем.</p>
+              <figure><img class="blend" src="./assets/img/34.webp">
+                <figcaption class="caption">Используя line-height: 1 можно создать line-box меньше области содержимого</figcaption>
+              </figure>
+              <p>Но не только <code>line-height: 1</code>. Вы будете удивлены, но подавляющее большинство шрифтов из Google Web Fonts, имеют вычисленную <code>line-height</code> больше 1. Их вычисленная <code>line-height</code> варьируется от 0,618 до 3,378. Вы правильно прочитали, 3,378!</p>
+              <p>Небольшие подробности о вычислении <em>line-box</em>:</p>
+              <ul>
+                <li>для inline элементов <code>padding</code> и <code>border</code> увеличивают область фона, но не высоту <em>content-area</em> (и высоту <em>line-box</em>). Поэтому <em>content-area</em> не всегда то, что вы видите на экране. <code>margin-top</code> и <code>margin-bottom</code> не имеют никакого эффекта.</li>
+                <li>для replaced inline элементов, <code>inline-block</code> и <em>блокированых</em> инлайновых элементов: <code>padding</code>, <code>margin</code> и <code>border</code> увеличивают <code>height</code>, и соответсвенно высоту <em>content-area</em> и <em>line-box</em></li>
+              </ul>
+            </div>
+            <esl-trigger class="read-next" target=".tab-4">посоветуйте, как жить дальше</esl-trigger>
+          </esl-panel>
+
+          <esl-panel class="esl-d-tab-panel tab-4" tabindex="0">
+            <!-- 4 -->
+            <div class="article-text language-css">
+              <figure><img class="chapter-img" src="./assets/img/chapter4.avif"></figure>
+              <h2><code>vertical-align</code>: одно свойство для управления всем</h2>
+              <p>Мы еще не упоминали свойство <code>vertical-align</code>, хотя оно является существенным фактором для вычисления высоты <em>line-box</em>. Можно даже сказать, что <strong><code>vertical-align</code> может играть ведущую роль в контексте форматирования строки</strong>.</p>
+              <p>Значение по умолчанию — <code>baseline</code>. Помните ли вы о таких метриках шрифта как ascender и descender? Эти значения определяют, где находится базовая линия, другими словами соотношение. Поскольку соотношение между ascenders и descender элементами редко бывает одинаковым, это может привести к неожиданным результатам, например, с одноуровневыми элементами.</p>
+              <p>Начнем с этого кода:</p>
+              <pre class="language-markup"><code>&lt;p>
+  &lt;span>Ba&lt;/span>
+  &lt;span>Ba&lt;/span>
+&lt;/p></code></pre>
+              <pre><code>p {
+  font-family: Catamaran;
+  font-size: 100px;
+  line-height: 200px;
+}</code></pre>
+              <style>
+                p.example-03 {
+                  font-family: Catamaran;
+                  font-size: 100px;
+                  line-height: 200px;
+                  padding: 0;
+                  background-color: var(--color-one);
+                  text-align: center;
+                }
+                p.example-03 span {
+                  background-color: darkred;
+                }
+              </style>
+              <p class="example-03"> <span>Ba</span> <span>Ba</span> </p>
+              <p>Тег <code>&lt;p&gt;</code> с двумя одноуровневых тегами <code>&lt;span&gt;</code>, наследующими <code>font-family</code>, <code>font-size</code> и фиксированную <code>line-height</code>. Базовые линии будут совпадать, а высота <em>line-box</em> будет равна их <code>line-height</code>.</p>
+              <figure><img class="blend" src="./assets/img/41.webp">
+                <figcaption class="caption">Те же значения шрифтов, те же базовые линии, кажется, все в порядке.</figcaption>
+              </figure>
+              <p>Что, если второй элемент имеет меньший <code>font-size</code>?</p>
+      <pre><code>span:last-child {
+  font-size: 50px;
+}</code></pre>
+              <style>
+                p.example-04 {
+                  font-family: Catamaran;
+                  font-size: 100px;
+                  line-height: 200px;
+                  padding: 0;
+                  background-color: var(--color-one);
+                  text-align: center;
+                }
+                p.example-04 span {
+                  background-color: darkred;
+                }
+                p.example-04 span:last-child {
+                  font-size: 50px;
+                }
+              </style>
+              <p class="example-04"> <span>Ba</span> <span>Ba</span> </p>
+              <p>Как бы странно это ни звучало, <strong>выравнивание базовой линии по умолчанию может привести к более высокому (!) <em>line-box</em></strong>, как показано на изображении ниже. Напоминаю, что высота <em>line-box</em> вычисляется от самой высокой точки его потомков до самой низкой точки его потомков.</p>
+              <figure><img class="blend" src="./assets/img/42.webp">
+                <figcaption class="caption">Меньший дочерний элемент может привести к увеличению высоты линейного блока.</figcaption>
+              </figure>
+              <p>Это могло бы быть <a href="http://allthingssmitty.com/2017/01/30/nope-nope-nope-line-height-is-unitless/" target="_blank">аргументом в пользу использования безразмерных значений <code>line-height</code>, но иногда вам нужны фиксированные значения, чтобы <a href="https://zellwk.com/blog/why-vertical-rhythms/" target="_blank">создать идеальный вертикальный ритм</a>. <strong>Честно говоря, независимо от того, что вы выберете, у вас всегда будут проблемы с выравниванием по строке</strong>.</p>
+              <p>Посмотрите на другой пример. Тег <code>&lt;p&gt;</code> с <code>line-height: 200px</code>, содержащий один <code>&lt;span&gt;</code>, наследующий <code>line-height</code></p>
+      <pre class="language-markup"><code>&lt;p>
+  &lt;span>Ba&lt;/span>
+&lt;/p></code></pre>
+      <pre><code>p {
+  line-height: 200px;
+}
+span {
+  font-family: Catamaran;
+  font-size: 100px;
+}</code></pre>
+              <style>
+                p.example-05 {
+                  line-height: 200px;
+                  background-color: var(--color-one);
+                  padding: 0;
+                  text-align: center;
+                }
+                p.example-05 span {
+                  font-family: Catamaran;
+                  font-size: 100px;
+                  background-color: darkred;
+                }
+              </style>
+              <p class="example-05"> <span>Ba</span> </p>
+              <p>Какова высота <em>line-box</em>? Мы ожидаем 200 пикселей, но это не то, что мы получаем. Проблема здесь в том, что <code>&lt;p&gt;</code> имеет свой собственный, другой <code>font-family</code> (по умолчанию <code>font-family: Inter, sans-serif;</code>). Базовые линии между тегом <code>&lt;p&gt;</code> и <code>&lt;span&gt;</code>, вероятно, будут разными, поэтому высота <em>line-box</em> выше, чем ожидалось. <strong>Это происходит, потому что браузеры выполняют свои вычисления так, как будто каждый <em>line-box</em> начинается с символа нулевой ширины</strong>, который в спецификации называется strut.</p>
+              <blockquote>
+                <p>Невидимый символ, но видимое воздействие.</p>
+              </blockquote>
+              <p>Подводя итог, мы столкнулись с той же проблемой, что и для одноуровневых элементов.</p>
+              <figure><img class="blend" src="./assets/img/43.webp">
+                <figcaption class="caption">Каждый дочерний элемент выравнивается так, как будто его строка начинается с невидимого символа нулевой ширины.</figcaption>
+              </figure>
+              <p>Выравнивание базовой линии облажалось, но как насчет <code>vertical-align: middle</code>? Возможно это спасет? Как вы можете прочитать в спецификации, <code>middle</code> "выравнивает вертикальную среднюю точку блока с базовой линией родительского блока плюс половина x-height родительского блока". <strong>Соотношение базовых линий отличается, как и соотношение x-height, поэтому выравнивание <code>middle</code> также не является надежным</strong>. Хуже того, в большинстве сценариев <code>middle</code> никогда не оказывается "посередине". Слишком много факторов задействовано и не может быть установлено через CSS (x-height, соотношение выносных и подстрочных элементов и т.д.)</p>
+              <p>Кстати, есть еще 4 значения, которые могут быть полезны в некоторых случаях:</p>
+              <ul>
+                <li><code>vertical-align: top</code> / <code>bottom</code> выровнять по верху или низу <em>line-box</em></li>
+                <li><code>vertical-align: text-top</code> / <code>text-bottom</code> выровнять по верху или низу <em>content-area</em></li>
+              </ul>
+              <figure><img class="blend" src="./assets/img/44.webp">
+                <figcaption class="caption">Vertical-align: top, bottom, text-top и text-bottom</figcaption>
+              </figure>
+              <p>Однако будьте осторожны: во всех случаях оно выравнивает <em>virtual-area</em>, а значит, и невидимую высоту. Посмотрите на этот простой пример с использованием <code>vertical-align: top</code>. <strong>Невидимая <code>line-height</code> может давать странные, но неудивительные результаты</strong>.</p>
+              <figure><img class="blend" src="./assets/img/45.webp">
+                <figcaption class="caption">vertical-align может скорее привести к странному результату, но это ожидаемо при визуализации line-height</figcaption>
+              </figure>
+              <p>Наконец, <code>vertical-align</code> также принимает числовые значения, которые поднимают или опускают поле относительно базовой линии. Такой вариант может пригодиться.</p>
+            </div>
+            <esl-trigger class="read-next" target=".tab-5">скажите, это лечат?</esl-trigger>
+          </esl-panel>
+
+          <esl-panel class="esl-d-tab-panel tab-5" tabindex="0">
+            <!-- 5 -->
+            <div class="article-text language-css">
+              <figure><img class="chapter-img" src="./assets/img/chapter5.avif"></figure>
+              <h2>Потрясающий CSS</h2>
+              <p>Мы узнали о том, как <code>line-height</code> и <code>vertical-align</code> работают вместе, но теперь вопрос: можно ли управлять метриками шрифта с помощью CSS? Короткий ответ: нет. Хотя я очень надеюсь на это. В любом случае, я думаю, нам можно немного поиграться. Метрики шрифта константы, поэтому мы должны что-то сделать.</p>
+              <p>А что, если, например, нам нужен текст, использующий шрифт Catamaran, где высота заглавных букв составляет ровно 100 пикселей? Кажется, это выполнимо: давайте займемся математикой.</p>
+              <p>Сначала мы задаем все метрики шрифта как переменные CSS, затем вычисляем <code>font-size</code>, чтобы получить высоту заглавных букв 100 пикселей.</p>
+              <pre><code>p {
+    /* font metrics */
+    --font: Catamaran;
+    --fm-capitalHeight: 0.68;
+    --fm-descender: 0.54;
+    --fm-ascender: 1.1;
+    --fm-linegap: 0;
+
+    /* desired font-size for capital height */
+    --capital-height: 100;
+
+    /* apply font-family */
+    font-family: var(--font);
+
+    /* compute font-size to get capital height equal desired font-size */
+    --computedFontSize: (var(--capital-height) / var(--fm-capitalHeight));
+    font-size: calc(var(--computedFontSize) * 1px);
+}</code></pre>
+              <figure><img class="blend" src="./assets/img/51.webp">
+                <figcaption class="caption">Высота заглавной буквы теперь составляет 100 пикселей.</figcaption>
+              </figure>
+              <p>Довольно просто, не правда ли? Но что, если мы хотим, чтобы текст был визуально посередине, так чтобы оставшееся пространство было равномерно распределено сверху и снизу буквы "B"? Чтобы добиться этого, нам нужно вычислить <code>vertical-align</code> на основе соотношения ascender/descender.</p>
+              <p>Сначала вычислим <code>line-height: normal</code> и высоту <em>content-area</em>:</p>
+              <pre><code>p {
+    …
+    --lineHeightNormal: (var(--fm-ascender) + var(--fm-descender) + var(--fm-linegap));
+    --contentArea: (var(--lineHeightNormal) * var(--computedFontSize));
+}</code></pre>
+              <p>Затем нам нужны:</p>
+              <ul>
+                <li>расстояние от низа заглавной буквы до нижнего края</li>
+                <li>расстояние от верха заглавной буквы до верхнего края</li>
+              </ul>
+              <p>Например вот так:</p>
+              <pre><code>p {
+    …
+    --distanceBottom: (var(--fm-descender));
+    --distanceTop: (var(--fm-ascender) - var(--fm-capitalHeight));
+}</code></pre>
+              <p>Теперь мы можем вычислить <code>vertical-align</code>, который представляет собой разницу между расстояниями, умноженными на вычисленный <code>font-size</code>. (мы должны применить это значение к инлайновому дочернему элементу)</p>
+              <pre><code>p {
+    …
+    --valign: ((var(--distanceBottom) - var(--distanceTop)) * var(--computedFontSize));
+}
+span {
+    vertical-align: calc(var(--valign) * -1px);
+}</code></pre>
+              <p>Теперь мы устанавливаем желаемую <code>line-height</code> и вычисляем ее, сохраняя вертикальное выравнивание:</p>
+              <pre><code>p {
+    …
+    /* desired line-height */
+    --line-height: 3;
+    line-height: calc(((var(--line-height) * var(--capital-height)) - var(--valign)) * 1px);
+}</code></pre>
+              <figure><img class="blend" src="./assets/img/52.webp">
+                <figcaption class="caption">Результаты с разной высотой строки. Текст всегда посередине</figcaption>
+              </figure>
+              <p>Добавление иконки, высота которой соответствует букве "B", делается легко:</p>
+              <pre><code>span::before {
+    content: '';
+    display: inline-block;
+    width: calc(1px * var(--capital-height));
+    height: calc(1px * var(--capital-height));
+    margin-right: 10px;
+    background-image: url("./assets/img/checkbox.svg");
+    background-size: cover;
+    background-color: white;
+    border-radius: 20%;
+}</code></pre>
+              <figure><img class="blend" src="./assets/img/53.webp">
+                <figcaption class="caption">Значок и буква B имеют одинаковую высоту.</figcaption>
+              </figure>
+              <p>Обращая ваше внимание на то, что этот код предназначен только для демонстрационных целей. На него нельзя полагаться. По нескольким причинам:</p>
+              <ul>
+                <li>если метрики шрифта не постоянны, вычисления в браузерах невозможны</li>
+                <li>если шрифт не загружен, резервный шрифт, вероятно, имеет другие метрики шрифта, и работа с несколькими значениями быстро станет совершенно неуправляемой.</li>
+              </ul>
+
+              <style>
+                p.example-11 {
+                  background: var(--color-one);
+                  border: 2px solid white;
+                  border-left: 0;
+                  border-right: 0;
+                  color: #fff;
+                  max-width: 540px;
+                  margin: 30px auto;
+                  padding: 0;
+                  text-align: center;
+
+                  /* font metrics */
+                  --font: Catamaran;
+                  --fm-emSquare: 1;
+                  --fm-capitalHeight: 0.68;
+                  --fm-descender: 0.54;
+                  --fm-ascender: 1.1;
+                  --fm-linegap: 0;
+
+                  /* compute needed values */
+                  --lineheightNormal: (var(--fm-ascender) + var(--fm-descender) + var(--fm-linegap));
+                  --distanceBottom: (var(--fm-descender));
+                  --distanceTop: (var(--fm-ascender) - var(--fm-capitalHeight));
+                  --contentArea: (var(--lineheightNormal) * var(--computedFontSize));
+                  --valign: ((var(--distanceBottom) - var(--distanceTop)) * var(--computedFontSize));
+                  --computedFontSize: (var(--capital-height) / var(--fm-capitalHeight));
+                  --computedLineHeight: ((var(--line-height) * var(--capital-height)) - var(--valign));
+
+                  /* desired capital height and line-height */
+                  --capital-height: 100;
+                  --line-height: 1;
+
+                  /* set font family */
+                  font-family: var(--font);
+
+                  /* set capital height to equal font-size */
+                  font-size: calc(var(--computedFontSize) * 1px);
+
+                  /* set computed line-height */
+                  line-height: calc(var(--computedLineHeight) * 1px);
+
+                }
+                .example-11 span {
+                  /* apply vertical align */
+                  vertical-align: calc(var(--valign) * -1px);
+                }
+                .example-11 span::before {
+                  content: '';
+                  display: inline-block;
+                  width: calc(1px * var(--capital-height));
+                  height: calc(1px * var(--capital-height));
+                  margin-right: 10px;
+                  background-image: url('./assets/img/checkbox.svg');
+                  background-size: cover;
+                  background-color: white;
+                  border-radius: 20%;
+                }
+
+                .example-11.lh1 {
+                  --line-height: 1;
+                }
+                .example-11.lh2 {
+                  --line-height: 2;
+                }
+                .example-11.lh3 {
+                  --capital-height: 75;
+                  --line-height: 3;
+                }
+              </style>
+              <p class="example-11 lh1"><span>Ba</span></p>
+              <p class="example-11 lh2"><span>Ba</span></p>
+              <p class="example-11 lh3"><span>Ba</span></p>
+            </div>
+            <esl-trigger class="read-next" target=".tab-6">хочу узнать чем все закончилось</esl-trigger>
+          </esl-panel>
+
+          <esl-panel class="esl-d-tab-panel tab-6" tabindex="0">
+            <!-- 6 -->
+            <div class="article-text language-css">
+              <figure><img class="chapter-img" src="./assets/img/chapter6.avif" height="500"></figure>
+              <h2>Итог</h2>
+              <p>Что мы узнали:</p>
+              <ul>
+                <li>inline formatting context действительно сложен для понимания</li>
+                <li>все строчные элементы имеют 2 высоты:
+                  <ul>
+                    <li><em>content-area</em> (на основе метрик шрифта)</li>
+                    <li><em>virtual-area</em> (<code>line-height</code>)</li>
+                    <li>ни одну из этих двух высот невозможно визуализировать.</li>
+                  </ul>
+                </li>
+                <li><code>line-height: normal</code> на основе метрик шрифта</li>
+                <li><code>line-height: n</code> может создать <em>virtual-area</em> меньше, чем <em>content-area</em></li>
+                <li><code>vertical-align</code> не очень надежен</li>
+                <li>высота <em>line-box</em> вычисляется на основе свойств его дочерних элементов <code>line-height</code> и <code>vertical-align</code></li>
+                <li>мы не можем легко получить/установить метрики шрифта с помощью CSS</li>
+              </ul>
+            </div>
+            <esl-trigger class="read-next" target=".tab-7">кажется тут еще одна страничка</esl-trigger>
+          </esl-panel>
+
+          <esl-panel class="esl-d-tab-panel tab-7" tabindex="0">
+            <!-- 7 -->
+            <div class="article-text language-css">
+              <figure><img class="chapter-img" src="./assets/img/chapter7.avif" height="500"></figure>
+              <h2>Полезные ресурсы</h2>
+              <ul>
+                <li>получить метрики шрифта: <a href="https://fontforge.github.io/en-US/" target="_blank">FontForge</a>, <a href="http://opentype.js.org/font-inspector.html" target="_blank">opentype.js</a></li>
+                <li><a href="http://brunildo.org/test/aspect-lh-table2.html" target="_blank">вычислить <code>line-height: normal</code> и некоторые соотношения в браузере</a></li>
+                <li><a href="https://www.w3.org/Style/CSS/Test/Fonts/Ahem/" target="_blank">Ahem</a>, специальный шрифт, помогающий понять, как это работает</li>
+                <li>еще более глубокое, институциональное объяснение <a href="http://meyerweb.com/eric/css/inline-format.html" target="_blank">inline formatting context</a></li>
+                <li><a href="https://seek-oss.github.io/capsize/" target="_blank">Capsize</a>, инструмент, позволяющий сделать размер и расположение текста предсказуемыми</li>
+                <li>актуальная спецификация <a href="https://drafts.csswg.org/css-inline-3/" target="_blank">CSS Inline Layout Module Level 3</a></li>
+                <li><a href="https://medium.com/microsoft-design/leading-trim-the-future-of-digital-typesetting-d082d84b202" target="_blank">блоговая статья о свойстве <code>leading-trim</code></a>, позволяющем обеспечить постоянный интервал путем управления leading (extra-space)</li>
+                <li><a href="https://drafts.css-houdini.org/font-metrics-api-1/" target="_blank">Font Metrics API Level 1</a>, коллекция интересных идей (Houdini)</li>
+              </ul>
+              <figure><img class="chapter-img" src="./assets/img/chapter71.avif"></figure>
+            </div>
+          </esl-panel>
+      </esl-panel-group>
+    </div>
+  </section>
+</body></html>

@@ -1,0 +1,28 @@
+{
+  "name": "inline-formatting-context",
+  "version": "1.0.0",
+  "description": "An introduction to the inline formatting context. Explores line-height and vertical-align properties, as well as the font metrics. Understand how text is rendered on screen, and how to control it with CSS.",
+  "license": "MIT",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "del-cli": "^5.1.0",
+    "esbuild": "^0.23.0",
+    "less": "^4.2.0",
+    "make-dir-cli": "^4.0.0",
+    "open-cli": "^8.0.0"
+  },
+  "scripts": {
+    "build": "npm run build:dist && npm run build:font && npm run build:img && npm run build:html && npm run build:less && npm run build:script",
+    "build:dist": "npx del-cli dist && npx make-dir-cli dist && npx make-dir-cli dist/assets",
+    "build:font": "copyfiles -f src/font/* dist/assets/font",
+    "build:img": "copyfiles -f src/img/* dist/assets/img",
+    "build:html": "copyfiles -f src/html/* dist",
+    "build:less": "lessc src/style/main.less dist/assets/app.css",
+    "build:script": "esbuild src/script/app.js --bundle --outfile=dist/assets/app.js",
+    "start": "npm run build && npx open-cli ./dist/index.html"
+  },
+  "dependencies": {
+    "@exadel/esl": "^5.0.0-beta.23",
+    "prismjs": "^1.29.0"
+  }
+}

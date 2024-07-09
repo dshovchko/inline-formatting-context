@@ -1,2 +1,9 @@
-# inline-formatting-context
-An introduction to the inline formatting context. Explores line-height and vertical-align properties, as well as the font metrics. Understand how text is rendered on screen, and how to control it with CSS.
+# An introduction to the inline formatting context
+
+Install the project dependencies:
+
+`npm install`
+
+Then build the project content and open it in a browser using the command:
+
+`npm start`

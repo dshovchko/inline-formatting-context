@@ -1,0 +1,16 @@
+# IDE
+.idea
+*.iml
+*.ipr
+*.iws
+.DS_Store
+
+# Libs
+node_modules
+
+# Build output
+dist
+
+# Logs & Tmp
+npm-debug.log
+.gitconfig
