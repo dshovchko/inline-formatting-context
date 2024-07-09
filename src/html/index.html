@@ -166,7 +166,6 @@
               <p>Это означает, что шрифт Catamaran использует 1100 + 540 единиц в em-square размером 1000 единиц, что дает высоту 164 пикселя при установке
                 <code>font-size: 100px</code>. <strong>Эта вычисленная высота определяет <em>content-area</em> элемента</strong>, и мы будем ссылаться на эту
                 терминологию далее. Вы можете думать об <em>content-area</em> как о области, к которой применяется свойство <code>background</code>.</p>
-              <p>We can also predict that capital letters are 68px high (680 units) and lower case letters (x-height) are 49px high (485 units). As a result, <code>1ex</code> = 49px and <code>1em</code> = 100px, not 164px (thankfully, <code>em</code> is based on <code>font-size</code>, not computed height)</p>
               <p>Мы также можем предсказать, что заглавные буквы будут иметь высоту 68px (680 единиц), а строчные буквы (x-height) — 49px (485 единиц).
                 В результате <code>1ex</code> = 49px и <code>1em</code> = 100px, а не 164px (к счастью, <code>em</code> основан на <code>font-size</code>, а не на вычисленной высоте)</p>
               <figure><img class="blend" src="./assets/img/24.webp">
@@ -245,7 +244,7 @@
               <p>В любом случае, проблема, которую мы еще не разрешили, заключается в том, каково значение <code>normal</code> для <code>line-height</code>? И ответ, что касается вычисления высоты <em>content-area</em>, следует искать внутри метрик шрифта.</p>
               <p>Итак, вернемся к FontForge. У Catamaran em-square равен 1000, но мы видим несколько значений ascender/descender:</p>
               <ul>
-                <li>основные <em>Ascent/Descent</em>: ascender равен 770 и descender равен 230. Используются для отрисовки символов. (вкладка <em>"General"</em>)</li>
+                <li>основные <em>Ascent/Descent</em>: ascender равен 800 и descender равен 200. Используются для отрисовки символов. (вкладка <em>"General"</em>)</li>
                 <li>метричные <em>Ascent/Descent</em>: ascender равен 1100 и descender равен 540. Используются для высоты <em>content-area</em>. (таблица <em>"Metrics"</em> на вкладке <em>"OS/2"</em>)</li>
                 <li>метричная <em>Line Gap</em>. Используется для <code>line-height: normal</code>, путем добавления этого значения к метрикам <em>Ascent/Descent</em>. (таблица <em>"Metrics"</em> на вкладке <em>"OS/2"</em>)</li>
               </ul>
